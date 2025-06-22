@@ -2,35 +2,33 @@ data_collection:
    data_path: r"C:\Users\HP\OneDrive\Bureau\water_potability.csv" 
    test_size: 0.2
 
-#model_building:
-#   n_estimators: 100
-
-#exp1:
-#  cv: 5
-#  models:
-#    - RandomForest
-#    - GradientBoosting
-#    - HistGradientBoosting
-#    - SVM
-#    - LogisticRegression
-
 exp1:
   cv: 5
   models:
     RandomForest:
-      class: RandomForestClassifier
+      class: ensemble.RandomForestClassifier
       params: {}
     GradientBoosting:
-      class: GradientBoostingClassifier
+      class: ensemble.GradientBoostingClassifier
       params: {}
     HistGradientBoosting:
-      class: HistGradientBoostingClassifier
+      class: ensemble.HistGradientBoostingClassifier
       params: {}
     SVM:
-      class: SVC
+      class: svm.SVC
       params:
         probability: true
     LogisticRegression:
-      class: LogisticRegression
+      class: linear_model.LogisticRegression
       params: 
         max_iter: 100
+
+exp2:
+  cv: 5
+  param_grid:
+    RandomForest:
+      n_estimators: [50, 100, 200, 300]
+      max_depth: [None, 5, 10, 20, 30]
+    GradientBoosting:
+      n_estimators: [50, 100, 200]
+      learning_rate: [0.01, 0.1, 0.2]

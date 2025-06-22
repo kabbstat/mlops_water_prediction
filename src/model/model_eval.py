@@ -112,7 +112,3 @@ with mlflow.start_run(run_name="GBC_hyperparameter_tuning") :
     pickle.dump(best_model, open("model.pkl", "wb"))
     # trachking the code 
     mlflow.log_artifact(__file__)
-
-    
-    
-
