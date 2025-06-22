@@ -1,0 +1,4 @@
+[core]
+    remote = wateremote
+['remote "wateremote"']
+    url = C:\Users\HP\AppData\Local\Temp\dvc

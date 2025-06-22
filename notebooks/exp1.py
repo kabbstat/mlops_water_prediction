@@ -1,54 +1,55 @@
 import pandas as pd
 import mlflow
 import mlflow.sklearn
+import importlib
 from sklearn.model_selection import train_test_split, cross_validate
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, HistGradientBoostingClassifier
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, confusion_matrix
-import matplotlib.pyplot as plt
-import seaborn as sns
+from utils import load_params, get_dataset_path
+
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
 mlflow.set_experiment("exp1_median_models")
 
-data = pd.read_csv(r"C:\Users\HP\OneDrive\Bureau\water_potability.csv")
-def missing_values(data):
-    for col in data.columns:
-        if data[col].isnull().any():
-            data[col].fillna(data[col].median(), inplace=True)
-    return data
-data = missing_values(data)
-# cross-validation
-#model = cross_validate(RandomForestClassifier(), data.drop('Potability', axis=1), data['Potability'], cv=5, scoring='accuracy')
-X = data.drop('Potability', axis=1)
-y = data['Potability']
-#data_train , data_test = train_test_split(data, test_size=0.2, random_state=42)
-#X_train = data_train.drop('Potability', axis=1)
-#y_train= data_train['Potability']
-#X_test = data_test.drop('Potability', axis=1)
-#y_test = data_test['Potability']
-models = {"RandomForestClassifier": RandomForestClassifier(),
-          "GradientBoostingClassifier": GradientBoostingClassifier(),
-          "HistGradientBoostingClassifier": HistGradientBoostingClassifier(),
-          "SVC": SVC(),
-          "LogisticRegression": LogisticRegression()}
+def get_model_class(model_config):
+    modul_name, class_name = model_config['class'].rsplit('.', 1)
+    module  = importlib.import_module(f"sklearn.{modul_name}")
+    return getattr(module, class_name)
 
-
-with mlflow.start_run(run_name="RandomForestModel_median"):
-    for model_name, model in models.items():
-        with mlflow.start_run(run_name= model_name, nested= True):
-            cmodel = cross_validate(model, X, y, cv=5)
-            mean_accuracy = cmodel['test_score'].mean()
-            std_accuracy = cmodel['test_score'].std()
-            mlflow.log_param("model_name", model_name)
-            mlflow.log_metric("mean_accuracy", mean_accuracy)
-            mlflow.log_metric("std_accuracy", std_accuracy)
+def main():
+    params = load_params()
+    data = pd.read_csv(get_dataset_path('train.csv', 'raw'))
+    X = data.drop('Potability', axis=1)
+    y = data['Potability']
+    models = params['exp1']['models']
+    best_score = 0
+    best_model = None
+    with mlflow.start_run(run_name="BestModel_Selection"):
+        for  model_name, model_config in models.items():
+            with mlflow.start_run(run_name= model_name, nested= True):
+                model_class = get_model_class(model_config)
+                model = model_class(**model_config('params',{}))
+                cmodel = cross_validate(model, X, y, cv=params['exp1']['cv'])
+                mean_accuracy = cmodel['test_score'].mean()
+                std_accuracy = cmodel['test_score'].std()
+                mlflow.log_param("model_name", model_name)
+                mlflow.log_metric("mean_accuracy", mean_accuracy)
+                mlflow.log_metric("std_accuracy", std_accuracy)
+                mlflow.sklearn.log_model(model, model_name)
+                if mean_accuracy > best_score:
+                    best_score = mean_accuracy
+                    best_model = model_name
+        if best_model:
+            mlflow.set_tag("best_model", best_model)
+            mlflow.log_param("best_model", best_model)
+            mlflow.log_param("best_score", best_score)    
+        with open('best_model.txt','w')as f:
+            f.write(best_model)
+if __name__ == "__main__":
+    main()
             
             
-            #y_pred = model.predict(X_test)
-            #accuracy = accuracy_score(y_test, y_pred)
-            #mlflow.sklearn.log_model(model, model_name)
-            #mlflow.log_metric(f"{model_name}_accuracy", accuracy)
+
             
     
     

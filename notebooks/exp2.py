@@ -3,40 +3,46 @@ from sklearn.model_selection import train_test_split, cross_validate, Stratified
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, precision_score, recall_score, roc_auc_score
 from sklearn.model_selection import GridSearchCV
-from sklearn.impute import SimpleImputer
+from utils import load_params, get_dataset_path
 import mlflow 
+import json
+import importlib
 import mlflow.sklearn
 import matplotlib.pyplot as plt
 import seaborn as sns
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
-mlflow.set_experiment("exp2_random_forest_Hyperparameter_tuning")
-data = pd.read_csv(r"C:\Users\HP\OneDrive\Bureau\water_potability.csv")
-imputer = SimpleImputer(strategy='median')
-data = pd.DataFrame(imputer.fit_transform(data), columns=data.columns)
-X = data.drop('Potability', axis=1)
-y = data['Potability']
-class_distribution = y.value_counts(normalize=True)
-print(f"Distribution des classes:\n{class_distribution}")
-data_train, data_test = train_test_split(data, test_size=0.2, random_state=42, stratify=y)
-X_train= data_train.drop('Potability', axis=1)
-X_test = data_test.drop('Potability', axis=1)
-y_train = data_train['Potability']
-y_test = data_test['Potability']
+mlflow.set_experiment("exp2_bestmodel_Hyperparameter_tuning")
+def get_model_class(model_config):
+    modul_name, class_name = model_config['class'].rsplit('.', 1)
+    module  = importlib.import_module(f"sklearn.{modul_name}")
+    return getattr(module, class_name)
+def main():
+    with open("best_model.txt", "r") as f:
+        best_model_name = f.read().strip()
+    params = load_params()
+    exp1_model_config = params['exp2']['models'][best_model_name]
+    model_class = get_model_class(exp1_model_config)
+    data = pd.read_csv(get_dataset_path('train.csv', 'processed'))
+    X = data.drop('Potability', axis=1)
+    y = data['Potability']
+    class_distribution = y.value_counts(normalize=True)
+    print(f"Distribution des classes:\n{class_distribution}")
+    with mlflow.start_run(run_name=f"BestModel_Optimized_{best_model_name}_Hyperparameter_Tuning"):
+        param_grid  = exp1_model_config['params']
+        grid_search = GridSearchCV(model_class(), param_grid=param_grid, cv=params['exp2']['cv'], scoring='accuracy', n_jobs=-1, verbose=1)
+        grid_search.fit(X, y)
+        best_params = grid_search.best_params_
+        best_score = grid_search.best_score_
+        best_model = grid_search.best_estimator_
+        mlflow.sklearn.log_model(best_model, "best_model")
+        mlflow.log_params(best_params)
+        mlflow.log_metric("best_score", best_score)
+        with open('best_model_params.json', 'w') as f:
+            json.dump(best_params, f)
+        mlflow.log_artifact('best_model_params.json')
+if __name__ == "__main__":
+    main()
 
-#model = cross_validate(RandomForestClassifier(), X, y, cv=3, scoring='accuracy')
-param_grid = {
-    'n_estimators': [50, 100, 200, 300],
-    'max_depth': [None, 5, 10, 20, 30],
-}
-'''
-param_grid = {
-    'n_estimators': [50, 100, 200, 300],
-    'max_depth': [None, 5, 10, 20, 30],
-    'min_samples_split': [2, 5, 10],
-    'min_samples_leaf': [1, 2, 4],
-    'max_features': ['sqrt', 'log2', 0.5, 0.8],
-    'bootstrap': [True, False]
-}
 '''
 cv_strategy = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
@@ -82,7 +88,7 @@ with mlflow.start_run(run_name="-Optimized_RF_Hyperparameter_Tuning"):
     print(f"test accuracy sur le test set: {accuracy:.4f}")
     print(f"roc_auc score: {roc_auc:.4f}")
     
-    
+ '''   
     
     
 
