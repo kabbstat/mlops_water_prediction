@@ -20,16 +20,14 @@ def main():
     with open("best_model.txt", "r") as f:
         best_model_name = f.read().strip()
     params = load_params()
-    exp1_model_config = params['exp2']['models'][best_model_name]
-    model_class = get_model_class(exp1_model_config)
+    grid_config = params['exp2']['param_grid'][best_model]
+    model_class = get_model_class(params['exp1']['models'][best_model])
     data = pd.read_csv(get_dataset_path('train.csv', 'processed'))
-    X = data.drop('Potability', axis=1)
-    y = data['Potability']
+    X ,y = data.drop('Potability', axis=1) , data['Potability']
     class_distribution = y.value_counts(normalize=True)
     print(f"Distribution des classes:\n{class_distribution}")
-    with mlflow.start_run(run_name=f"BestModel_Optimized_{best_model_name}_Hyperparameter_Tuning"):
-        param_grid  = exp1_model_config['params']
-        grid_search = GridSearchCV(model_class(), param_grid=param_grid, cv=params['exp2']['cv'], scoring='accuracy', n_jobs=-1, verbose=1)
+    with mlflow.start_run(run_name=f"BestModel_Optimized_{best_model}_Hyperparameter_Tuning"):
+        grid_search = GridSearchCV(model_class(), param_grid=grid_config, cv=params['exp2']['cv'], scoring='accuracy', n_jobs=-1, verbose=1)
         grid_search.fit(X, y)
         best_params = grid_search.best_params_
         best_score = grid_search.best_score_

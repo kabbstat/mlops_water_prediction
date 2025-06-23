@@ -7,8 +7,10 @@ def load_params():
         return yaml.safe_load(f)
 
 def get_dataset_path(filename, stage):
+    name, ext = os.path.splitext(filename)
     if stage == 'raw':
         return os.path.join('data', 'raw', filename)
     elif stage == 'processed':
-        name, ext = os.path.splitext(filename)
         return os.path.join('data', 'processed',f"{name}_processed{ext}")
+    else:
+        raise ValueError(f"Unknown stage: {stage}. Use 'raw' or 'processed'.")

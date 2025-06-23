@@ -32,7 +32,7 @@ def main():
     os.makedirs(os.path.dirname(train_processed_path), exist_ok=True)
     os.makedirs(os.path.dirname(test_processed_path), exist_ok=True)
 
-    train_processed_data.to_csv(train_processed_data, index=False)
-    test_processed_data.to_csv(test_processed_data, index=False)
+    train_processed_data.to_csv(train_processed_path, index=False)
+    test_processed_data.to_csv(test_processed_path, index=False)
 if __name__ == "__main__":
     main()  
