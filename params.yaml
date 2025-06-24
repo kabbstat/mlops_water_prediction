@@ -1,5 +1,5 @@
 data_collection:
-   data_path: r"C:\Users\HP\OneDrive\Bureau\water_potability.csv" 
+   data_path: "C:\\Users\\pc\\Desktop\\water_potability.csv"
    test_size: 0.2
 
 exp1:
@@ -32,3 +32,12 @@ exp2:
     GradientBoosting:
       n_estimators: [50, 100, 200]
       learning_rate: [0.01, 0.1, 0.2]
+    HistGradientBoosting:  
+      max_iter: [100, 200, 300]
+      learning_rate: [0.01, 0.1, 0.2]
+    SVM:  
+      C: [0.1, 1, 10]
+      kernel: ['linear', 'rbf']
+    LogisticRegression:  
+      C: [0.1, 1, 10]
+      solver: ['liblinear', 'lbfgs']

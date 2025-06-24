@@ -6,21 +6,23 @@ stages:
     - src/utils.py
     - params.yaml
     outs:
-    - data/raw
+    - data/raw/train.csv
+    - data/raw/test.csv
   pre_processing:
     cmd: python src/data_prep.py
     deps:
-    - src/data/raw/train.csv
-    - src/data/raw/test.csv
+    - data/raw/train.csv
+    - data/raw/test.csv
     - src/data_prep.py
     - src/utils.py
     outs:
-    - data/processed
+    - data/processed/train_processed.csv
+    - data/processed/test_processed.csv
   model_selection:
     cmd: python src/exp1.py
     deps:
-    - src/data/processed/train_processed.csv
-    - src/data/processed/test_processed.csv
+    - data/processed/train_processed.csv
+    - data/processed/test_processed.csv
     - src/exp1.py
     - src/utils.py
     - params.yaml
@@ -29,7 +31,7 @@ stages:
   hyperparameter_tuning:
     cmd: python src/exp2.py
     deps:
-    - src/processed/train_processed.csv
+    - data/processed/train_processed.csv
     - best_model.txt
     - src/exp2.py
     - src/utils.py
@@ -50,3 +52,4 @@ stages:
     outs:
     - feature_importances.png
     - confusion_matrix.png
+    - model_eval.txt

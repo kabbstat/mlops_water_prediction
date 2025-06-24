@@ -12,13 +12,13 @@ mlflow.set_tracking_uri("http://127.0.0.1:5000")
 mlflow.set_experiment("exp1_median_models")
 
 def get_model_class(model_config):
-    modul_name, class_name = model_config['class'].rsplit('.', 1)
-    module  = importlib.import_module(f"sklearn.{modul_name}")
+    module_name, class_name = model_config['class'].rsplit('.', 1)
+    module = importlib.import_module(f"sklearn.{module_name}")
     return getattr(module, class_name)
 
 def main():
     params = load_params()
-    data = pd.read_csv(get_dataset_path('train.csv', 'raw'))
+    data = pd.read_csv(get_dataset_path('train.csv', 'processed'))
     X = data.drop('Potability', axis=1)
     y = data['Potability']
     models_cfg = params['exp1']['models']

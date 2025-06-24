@@ -12,9 +12,26 @@ def load_data(filepath):
         raise Exception(f"error loading data from {filepath}: {e}")
 
 def fill_missing_values(data):
-    impute = SimpleImputer(strategy='median')
-    data = pd.DataFrame(impute.fit_transform(data), columns=data.columns)
-    return data
+    if 'Potability' in data.columns:
+        features = data.drop('Potability', axis=1)
+        target = data['Potability']
+    else:
+        features = data.copy()
+        target = None
+    missing_count = features.isnull().sum().sum()
+    if missing_count > 0 :
+        impute = SimpleImputer(strategy='median')
+        features_imputed = pd.DataFrame(impute.fit_transform(features), columns=features.columns, index=features.index)
+        print(f"Missing values found and imputed. Total missing values: {missing_count}")
+    else:
+        features_imputed = features
+        print("No missing values found in the dataset.")
+    if target is not None:
+       result =  pd.concat([features_imputed, target], axis=1)
+    else:
+        result = features_imputed
+
+    return result
 
 def main(): 
     data_train_path = get_dataset_path('train.csv', 'raw')

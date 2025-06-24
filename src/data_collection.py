@@ -6,7 +6,7 @@ from utils import load_params, get_dataset_path
 
 
 
-def main ():    
+def main():    
    params = load_params()
    data = pd.read_csv(params['data_collection']['data_path'])
    train , test = train_test_split(data, test_size=params['data_collection']['test_size'], random_state=42, stratify=data['Potability'])
@@ -16,5 +16,8 @@ def main ():
    os.makedirs(os.path.dirname(test_path), exist_ok=True)
    train.to_csv(train_path, index=False)
    test.to_csv(test_path, index=False)
+   print(f"Données d'entraînement sauvegardées: {train_path}")
+   print(f"Données de test sauvegardées: {test_path}")
+   print(f"Taille train: {train.shape}, Taille test: {test.shape}")
 if __name__ == "__main__":
     main()

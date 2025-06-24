@@ -1,0 +1,6 @@
+artifact_location: mlflow-artifacts:/957801441735058978
+creation_time: 1750760089719
+experiment_id: '957801441735058978'
+last_update_time: 1750760089719
+lifecycle_stage: active
+name: exp1_median_models

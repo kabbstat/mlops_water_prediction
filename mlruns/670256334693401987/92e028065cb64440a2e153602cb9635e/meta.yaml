@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/670256334693401987/92e028065cb64440a2e153602cb9635e/artifacts
+end_time: 1750762386394
+entry_point_name: ''
+experiment_id: '670256334693401987'
+lifecycle_stage: active
+run_id: 92e028065cb64440a2e153602cb9635e
+run_name: <class 'sklearn.ensemble._hist_gradient_boosting.gradient_boosting.HistGradientBoostingClassifier'>_evaluation
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1750762136234
+status: 4
+tags: []
+user_id: pc
