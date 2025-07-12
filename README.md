@@ -162,38 +162,11 @@ Collection de Données → Préparation → Expérimentation MLflow → Hyperpar
 
 2. **Exécution du Pipeline Complet**
    ```bash
-   # Collection des données
-   python src/data_collection.py
-   
-   # Préparation des données
-   python src/data_prep.py
-   
-   # Expérimentation modèles
-   python src/exp1.py
-   
-   # Optimisation hyperparamètres
-   python src/exp2.py
-   
-   # Évaluation finale
-   python src/model_eval.py
+   # Exécution compléte du pipeline
+   dvc repro
+
    ```
-
-### Commandes Makefile
-
-```bash
-make data      # Collecte et préparation des données
-make train     # Entraînement des modèles
-make optimize  # Optimisation hyperparamètres
-make evaluate  # Évaluation finale
-make clean     # Nettoyage des fichiers temporaires
-```
-
-### Notebooks Jupyter
-
-```bash
-jupyter notebook notebooks/
-```
-
+   
 ## 📊 Données
 
 Le projet utilise des jeux de données de qualité de l'eau contenant des paramètres tels que :
@@ -254,34 +227,6 @@ Tous les résultats sont disponibles via l'interface MLflow :
 - **Analyse des Features** : Importance et corrélations
 - **Visualisations** : Courbes ROC, matrices de confusion
 - **Recommandations** : Meilleur modèle et paramètres optimaux
-
-## 🔧 Développement et Tests
-
-### Tests
-
-```bash
-# Exécution des tests
-python -m pytest tests/
-
-# Tests avec coverage
-python -m pytest tests/ --cov=src
-```
-
-### Linting et Format
-
-```bash
-# Linting
-flake8 src/
-black src/
-```
-
-## 🤝 Contribution
-
-1. Fork le repository
-2. Créer une branche feature (`git checkout -b feature/nouvelle-fonctionnalité`)
-3. Commit les changements (`git commit -m 'Ajout nouvelle fonctionnalité'`)
-4. Push vers la branche (`git push origin feature/nouvelle-fonctionnalité`)
-5. Créer une Pull Request
 
 ## 📄 Licence
 
