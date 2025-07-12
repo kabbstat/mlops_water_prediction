@@ -31,16 +31,13 @@ mlops_water_prediction/
 ├── Makefile                 # Commandes d'automatisation du projet
 ├── README.md               # Documentation du projet
 ├── requirements.txt        # Dépendances Python
-├── setup.py               # Configuration d'installation
+├── dvc.yaml                # DVC pipeline
 ├── data/
 │   ├── external/           # Sources de données tierces
 │   ├── interim/            # Données intermédiaires traitées
 │   ├── processed/          # Jeux de données finaux pour la modélisation
 │   └── raw/                # Données brutes originales
-├── models/                 # Modèles entraînés et prédictions
-├── notebooks/              # Notebooks Jupyter pour l'analyse
-├── reports/                # Rapports d'analyse générés
-│   └── figures/            # Graphiques et visualisations
+├── params.yaml             # Modéls et hyperparametres grid
 ├── src/                    # Code source principal
 │   ├── __init__.py
 │   ├── utils.py            # Fonctions utilitaires
@@ -49,7 +46,7 @@ mlops_water_prediction/
 │   ├── exp1.py             # Expérimentation modèles avec MLflow
 │   ├── exp2.py             # Optimisation hyperparamètres
 │   └── model_eval.py       # Évaluation du modèle final
-└── docs/                   # Documentation (Sphinx)
+
 ```
 
 ## 🚀 Installation et Configuration
