@@ -1,209 +1,311 @@
-# Water Potability Prediction using Machine Learning
+# MLOps Water Potability Prediction
 
-A comprehensive MLOps project for predicting water potability using machine learning techniques. This project follows industry best practices with a well-structured data science workflow and reproducible analysis pipeline.
+Un projet MLOps complet pour prédire la potabilité de l'eau en utilisant des techniques d'apprentissage automatique. Ce projet suit les meilleures pratiques de l'industrie avec un workflow de data science bien structuré et un pipeline d'analyse reproductible.
 
-## 🎯 Project Overview
+## 🎯 Aperçu du Projet
 
-This project aims to predict water potability (whether water is safe for drinking) using various water quality parameters. The model helps in assessing water quality and ensuring safe drinking water standards.
+Ce projet vise à prédire la potabilité de l'eau (si l'eau est potable) en utilisant divers paramètres de qualité de l'eau. Le modèle aide à évaluer la qualité de l'eau et à garantir des normes d'eau potable sûres.
 
-## 📊 Features
+## 📊 Fonctionnalités
 
-- **Data Processing Pipeline**: Automated data cleaning, transformation, and feature engineering
-- **Machine Learning Models**: Multiple ML algorithms for water potability prediction
-- **Model Evaluation**: Comprehensive model performance analysis and comparison
-- **Visualization**: Interactive charts and graphs for data exploration and results
-- **Reproducible Workflow**: Standardized project structure following data science best practices
+- **Pipeline de Traitement des Données** : Collecte, nettoyage et préparation automatisés des données
+- **Expérimentation MLflow** : Suivi complet des expériences et gestion des modèles
+- **Hyperparamètre Tuning** : Optimisation systématique des paramètres
+- **Évaluation de Modèles** : Analyse complète des performances et comparaisons
+- **Workflow Reproductible** : Structure standardisée suivant les meilleures pratiques
 
-## 🛠️ Technologies Used
+## 🛠️ Technologies Utilisées
 
-- **Python**: Main programming language
-- **Pandas**: Data manipulation and analysis
-- **NumPy**: Numerical computing
-- **Scikit-learn**: Machine learning algorithms
-- **Matplotlib/Seaborn**: Data visualization
-- **Jupyter Notebooks**: Interactive development and analysis
+- **Python** : Langage de programmation principal
+- **Pandas & NumPy** : Manipulation et analyse des données
+- **Scikit-learn** : Algorithmes d'apprentissage automatique
+- **MLflow** : Suivi des expériences et gestion des modèles
+- **Matplotlib/Seaborn** : Visualisation des données
+- **Jupyter Notebooks** : Développement interactif et analyse
 
-## 📁 Project Structure
+## 📁 Structure du Projet
 
 ```
 mlops_water_prediction/
 ├── LICENSE
-├── Makefile                 # Commands for project automation
-├── README.md               # Project documentation
+├── Makefile                 # Commandes d'automatisation du projet
+├── README.md               # Documentation du projet
+├── requirements.txt        # Dépendances Python
+├── setup.py               # Configuration d'installation
 ├── data/
-│   ├── external/           # Third-party data sources
-│   ├── interim/            # Intermediate processed data
-│   ├── processed/          # Final datasets for modeling
-│   └── raw/                # Original raw data
-├── docs/                   # Documentation (Sphinx)
-├── models/                 # Trained models and predictions
-├── notebooks/              # Jupyter notebooks for analysis
-├── references/             # Data dictionaries and manuals
-├── reports/                # Generated analysis reports
-│   └── figures/            # Charts and visualizations
-├── requirements.txt        # Python dependencies
-├── setup.py               # Package installation setup
-├── src/                   # Source code
-│   ├── data/              # Data processing scripts
-│   ├── features/          # Feature engineering
-│   ├── models/            # Model training and prediction
-│   └── visualization/     # Visualization scripts
-└── tox.ini                # Testing configuration
+│   ├── external/           # Sources de données tierces
+│   ├── interim/            # Données intermédiaires traitées
+│   ├── processed/          # Jeux de données finaux pour la modélisation
+│   └── raw/                # Données brutes originales
+├── models/                 # Modèles entraînés et prédictions
+├── notebooks/              # Notebooks Jupyter pour l'analyse
+├── reports/                # Rapports d'analyse générés
+│   └── figures/            # Graphiques et visualisations
+├── src/                    # Code source principal
+│   ├── __init__.py
+│   ├── utils.py            # Fonctions utilitaires
+│   ├── data_collection.py  # Collection des données
+│   ├── data_prep.py        # Préparation et preprocessing
+│   ├── exp1.py             # Expérimentation modèles avec MLflow
+│   ├── exp2.py             # Optimisation hyperparamètres
+│   └── model_eval.py       # Évaluation du modèle final
+└── docs/                   # Documentation (Sphinx)
 ```
 
-## 🚀 Getting Started
+## 🚀 Installation et Configuration
 
-### Prerequisites
+### Prérequis
 
 - Python 3.8+
-- pip package manager
+- pip gestionnaire de packages
 - Git
 
 ### Installation
 
-1. **Clone the repository**
+1. **Cloner le repository**
    ```bash
    git clone https://github.com/kabbstat/mlops_water_prediction.git
    cd mlops_water_prediction
    ```
 
-2. **Create a virtual environment**
+2. **Créer un environnement virtuel**
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   source venv/bin/activate  # Sur Windows: venv\Scripts\activate
    ```
 
-3. **Install dependencies**
+3. **Installer les dépendances**
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Install the project package**
+4. **Installer le package du projet**
    ```bash
    pip install -e .
    ```
 
-## 📈 Usage
+## 🔄 Pipeline MLOps Détaillé
 
-### Quick Start
+### Vue d'ensemble du Pipeline
 
-1. **Data Preparation**
+```
+Collection de Données → Préparation → Expérimentation MLflow → Hyperparamètre Tuning → Évaluation Finale
+```
+
+### Étapes du Pipeline
+
+#### 1. **Collection des Données** (`src/data_collection.py`)
+- **Objectif** : Collecte et acquisition des données de qualité de l'eau
+- **Impact sur l'évolution** : Établit la base de données fiable pour l'entraînement
+- **Processus** :
+  - Collecte des données à partir de sources multiples
+  - Validation de l'intégrité des données
+  - Stockage dans `data/raw/`
+
+#### 2. **Préparation des Données** (`src/data_prep.py`)
+- **Objectif** : Nettoyage, transformation et préparation des données
+- **Impact sur l'évolution** : Améliore la qualité des données et la performance des modèles
+- **Processus** :
+  - Nettoyage des valeurs manquantes et aberrantes
+  - Normalisation et standardisation
+  - Ingénierie des caractéristiques
+  - Division train/validation/test
+  - Sauvegarde dans `data/processed/`
+
+#### 3. **Expérimentation avec MLflow** (`src/exp1.py`)
+- **Objectif** : Entraînement et comparaison de multiples modèles ML
+- **Impact sur l'évolution** : Permet la sélection basée sur les données du meilleur modèle
+- **Processus** :
+  - Entraînement de différents algorithmes (Random Forest, SVM, etc.)
+  - Suivi des métriques avec MLflow
+  - Validation croisée
+  - Logging des paramètres et artefacts
+  - Comparaison des performances
+
+#### 4. **Optimisation Hyperparamètres** (`src/exp2.py`)
+- **Objectif** : Optimisation fine des hyperparamètres des meilleurs modèles
+- **Impact sur l'évolution** : Maximise les performances du modèle final
+- **Processus** :
+  - Grid Search / Random Search
+  - Bayesian Optimization
+  - Validation croisée avec MLflow tracking
+  - Sélection des meilleurs hyperparamètres
+
+#### 5. **Évaluation du Modèle Final** (`src/model_eval.py`)
+- **Objectif** : Évaluation complète du modèle final optimisé
+- **Impact sur l'évolution** : Valide la robustesse et la fiabilité du modèle
+- **Processus** :
+  - Tests sur données de test
+  - Métriques de performance détaillées
+  - Analyse des erreurs
+  - Génération de rapports
+  - Visualisations des résultats
+
+#### 6. **Fonctions Utilitaires** (`src/utils.py`)
+- **Objectif** : Fonctions communes réutilisables
+- **Impact sur l'évolution** : Assure la consistance et réutilisabilité du code
+- **Contenu** :
+  - Fonctions de preprocessing
+  - Métriques personnalisées
+  - Utilitaires de visualisation
+  - Helpers pour MLflow
+
+## 📈 Utilisation
+
+### Démarrage Rapide
+
+1. **MLflow UI**
    ```bash
-   make data
+   mlflow ui
+   ```
+   Naviguez vers `http://localhost:5000` pour voir le dashboard
+
+2. **Exécution du Pipeline Complet**
+   ```bash
+   # Collection des données
+   python src/data_collection.py
+   
+   # Préparation des données
+   python src/data_prep.py
+   
+   # Expérimentation modèles
+   python src/exp1.py
+   
+   # Optimisation hyperparamètres
+   python src/exp2.py
+   
+   # Évaluation finale
+   python src/model_eval.py
    ```
 
-2. **Train Models**
-   ```bash
-   make train
-   ```
+### Commandes Makefile
 
-3. **Generate Predictions**
-   ```bash
-   python src/models/predict_model.py
-   ```
+```bash
+make data      # Collecte et préparation des données
+make train     # Entraînement des modèles
+make optimize  # Optimisation hyperparamètres
+make evaluate  # Évaluation finale
+make clean     # Nettoyage des fichiers temporaires
+```
 
-### Using Jupyter Notebooks
+### Notebooks Jupyter
 
-Launch Jupyter and explore the analysis notebooks:
 ```bash
 jupyter notebook notebooks/
 ```
 
-### Command Line Interface
+## 📊 Données
 
-The project includes a Makefile for common tasks:
-- `make data`: Download and process data
-- `make train`: Train machine learning models
-- `make predict`: Generate predictions
-- `make visualize`: Create visualizations
-- `make clean`: Clean temporary files
+Le projet utilise des jeux de données de qualité de l'eau contenant des paramètres tels que :
 
-## 📊 Data
+- **pH** : Niveau d'acidité/basicité
+- **Dureté** : Concentration en minéraux
+- **Solides** : Solides dissous totaux
+- **Chloramines** : Désinfectant
+- **Sulfate** : Composé chimique
+- **Conductivité** : Capacité de conduction électrique
+- **Carbone Organique** : Matière organique
+- **Trihalométhanes** : Sous-produits de désinfection
+- **Turbidité** : Clarté de l'eau
+- **Potabilité** : Variable cible (0 = non potable, 1 = potable)
 
-The project uses water quality datasets containing various parameters such as:
-- pH levels
-- Hardness
-- Solids (Total Dissolved Solids)
-- Chloramines
-- Sulfate
-- Conductivity
-- Organic Carbon
-- Trihalomethanes
-- Turbidity
-- Potability (target variable)
+## 🤖 Modèles Implémentés
 
-## 🤖 Models
+- **Logistic Regression** : Modèle de base
+- **Random Forest** : Ensemble method
+- **Support Vector Machine** : Classification non-linéaire
+- **Gradient Boosting** : Algorithme de boosting
+- **XGBoost** : Gradient boosting optimisé
+- **Neural Networks** : Réseaux de neurones
 
-The project implements and compares multiple machine learning algorithms:
-- Logistic Regression
-- Random Forest
-- Support Vector Machine
-- Gradient Boosting
-- Neural Networks
+## 📊 Suivi avec MLflow
 
-## 📋 Results
+### Fonctionnalités MLflow
 
-Model performance metrics and comparisons are available in the `reports/` directory, including:
-- Accuracy scores
-- Precision, Recall, F1-score
-- ROC curves
-- Feature importance analysis
-- Model comparison charts
+- **Experiment Tracking** : Suivi de tous les runs avec paramètres et métriques
+- **Model Registry** : Gestion des versions de modèles
+- **Artifact Logging** : Sauvegarde des modèles, plots et importance des features
+- **Metric Comparison** : Comparaison côte à côte des expériences
+- **Reproductibilité** : Suivi de l'environnement et des dépendances
 
-## 🔄 MLOps Pipeline
+### Métriques Suivies
 
-The project follows MLOps best practices:
-- **Version Control**: Git for code and data versioning
-- **Reproducibility**: Standardized project structure and requirements
-- **Automation**: Makefile for common tasks
-- **Documentation**: Comprehensive code and project documentation
-- **Testing**: Automated testing with tox
-- **Monitoring**: Model performance tracking
+- **Accuracy** : Précision globale
+- **Precision** : Précision par classe
+- **Recall** : Rappel par classe
+- **F1-Score** : Mesure harmonique
+- **ROC AUC** : Aire sous la courbe ROC
+- **Confusion Matrix** : Matrice de confusion
+- **Feature Importance** : Importance des variables
 
-## 📚 Documentation
+## 📋 Résultats
 
-Detailed documentation is available in the `docs/` directory. To build the documentation:
+### Dashboard MLflow
+
+Tous les résultats sont disponibles via l'interface MLflow :
+- Comparaison interactive des expériences
+- Visualisation des métriques au fil du temps
+- Artefacts de modèles et graphiques
+- Suivi complet de la reproductibilité
+
+### Rapports Générés
+
+- **Rapport de Performance** : Métriques détaillées par modèle
+- **Analyse des Features** : Importance et corrélations
+- **Visualisations** : Courbes ROC, matrices de confusion
+- **Recommandations** : Meilleur modèle et paramètres optimaux
+
+## 🔧 Développement et Tests
+
+### Tests
+
 ```bash
-cd docs/
-make html
+# Exécution des tests
+python -m pytest tests/
+
+# Tests avec coverage
+python -m pytest tests/ --cov=src
 ```
 
-## 🧪 Testing
+### Linting et Format
 
-Run tests using tox:
 ```bash
-tox
+# Linting
+flake8 src/
+black src/
 ```
 
-## 🤝 Contributing
+## 🤝 Contribution
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Fork le repository
+2. Créer une branche feature (`git checkout -b feature/nouvelle-fonctionnalité`)
+3. Commit les changements (`git commit -m 'Ajout nouvelle fonctionnalité'`)
+4. Push vers la branche (`git push origin feature/nouvelle-fonctionnalité`)
+5. Créer une Pull Request
 
-## 📄 License
+## 📄 Licence
 
-This project is licensed under the terms specified in the LICENSE file.
+Ce projet est sous licence spécifiée dans le fichier LICENSE.
 
-## 👨‍💻 Author
+## 👨‍💻 Auteur
 
-**kabbaj mohamed stat**
+**Kabbaj Mohamed**
 - GitHub: [@kabbstat](https://github.com/kabbstat)
+- LinkedIn: [Mohamed Kabbaj](https://linkedin.com/in/mohamed-kabbaj)
 
-## 🙏 Acknowledgments
+## 🙏 Remerciements
 
-- Project structure based on the [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science/) template
-- Thanks to the open-source community for the tools and libraries used
+- Structure du projet basée sur le template [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science/)
+- Communauté open-source pour les outils et bibliothèques utilisés
+- MLflow pour l'excellent framework de suivi des expériences
 
 ## 📞 Support
 
-If you have any questions or need help with the project, please:
-1. Check the documentation in the `docs/` directory
-2. Look through existing issues on GitHub
-3. Create a new issue if your question isn't answered
+Pour toute question ou aide avec le projet :
+1. Consultez la documentation dans le répertoire `docs/`
+2. Parcourez les issues existantes sur GitHub
+3. Créez une nouvelle issue si votre question n'est pas résolue
 
 ---
 
-*This project demonstrates MLOps best practices for water quality prediction, combining data science workflows with engineering principles for reproducible and scalable machine learning solutions.*
+*Ce projet démontre les meilleures pratiques MLOps pour la prédiction de la qualité de l'eau, combinant les workflows de data science avec les principes d'ingénierie pour des solutions d'apprentissage automatique reproductibles et évolutives.*
