@@ -1,0 +1,14 @@
+artifact_uri: file:///app/mlruns/225873157481061870/d5b77b0aacdc477491fcf25e2cc1d3da/artifacts
+end_time: 1766680107753
+entry_point_name: ''
+experiment_id: '225873157481061870'
+lifecycle_stage: active
+run_id: d5b77b0aacdc477491fcf25e2cc1d3da
+run_name: HistGradientBoosting
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1766680098047
+status: 3
+tags: []
+user_id: root

@@ -1,7 +1,0 @@
-artifact_location: mlflow-artifacts:/588780771746933558
-creation_time: 1750760367405
-experiment_id: '588780771746933558'
-last_update_time: 1750760482363
-lifecycle_stage: deleted
-name: water_potability_model_evaluation
-tags: {}

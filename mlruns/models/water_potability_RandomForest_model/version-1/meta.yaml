@@ -1,0 +1,15 @@
+creation_timestamp: 1766680229920
+current_stage: None
+deployment_job_state: null
+description: Évaluation finale du modèle RandomForest — accuracy=0.6723
+last_updated_timestamp: 1766680233682
+model_id: m-3b75c6eb0b0748d8b70702c8533cd365
+name: water_potability_RandomForest_model
+run_id: 91ccd06a2974449ca374a064662b1b08
+run_link: null
+source: models:/m-3b75c6eb0b0748d8b70702c8533cd365
+status: READY
+status_message: null
+storage_location: file:///app/mlruns/959986198691173668/models/m-3b75c6eb0b0748d8b70702c8533cd365/artifacts
+user_id: null
+version: 1

@@ -1,0 +1,10 @@
+artifact_location: file:///app/mlruns/225873157481061870/models/m-2218a13a2f904711a5762509cb94eef0/artifacts
+creation_timestamp: 1766680136270
+experiment_id: '225873157481061870'
+last_updated_timestamp: 1766680140927
+model_id: m-2218a13a2f904711a5762509cb94eef0
+model_type: null
+name: SVM
+source_run_id: e4198d63ee1743d98f25e3bc8c4e127c
+status: 2
+status_message: null

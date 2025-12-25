@@ -1,0 +1,14 @@
+artifact_uri: file:///app/mlruns/225873157481061870/790b432bf09346ca9ca9da2ba001747a/artifacts
+end_time: 1766680126711
+entry_point_name: ''
+experiment_id: '225873157481061870'
+lifecycle_stage: active
+run_id: 790b432bf09346ca9ca9da2ba001747a
+run_name: ExtraTrees
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1766680116312
+status: 3
+tags: []
+user_id: root

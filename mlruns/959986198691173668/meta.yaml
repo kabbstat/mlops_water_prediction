@@ -1,0 +1,6 @@
+artifact_location: file:///app/mlruns/959986198691173668
+creation_time: 1766680217130
+experiment_id: '959986198691173668'
+last_update_time: 1766680217130
+lifecycle_stage: active
+name: model_evaluation

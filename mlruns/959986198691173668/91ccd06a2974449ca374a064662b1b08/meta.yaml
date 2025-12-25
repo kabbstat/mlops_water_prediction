@@ -1,0 +1,14 @@
+artifact_uri: file:///app/mlruns/959986198691173668/91ccd06a2974449ca374a064662b1b08/artifacts
+end_time: 1766680235314
+entry_point_name: ''
+experiment_id: '959986198691173668'
+lifecycle_stage: active
+run_id: 91ccd06a2974449ca374a064662b1b08
+run_name: <class 'sklearn.ensemble._forest.RandomForestClassifier'>_evaluation
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1766680220973
+status: 3
+tags: []
+user_id: root

@@ -1,0 +1,10 @@
+artifact_location: file:///app/mlruns/225873157481061870/models/m-5336ca2a4fc64c14a2c29a8a44aac25e/artifacts
+creation_timestamp: 1766680110806
+experiment_id: '225873157481061870'
+last_updated_timestamp: 1766680116054
+model_id: m-5336ca2a4fc64c14a2c29a8a44aac25e
+model_type: null
+name: AdaBoost
+source_run_id: e596766822c74de7b6f6539c39ce60ce
+status: 2
+status_message: null

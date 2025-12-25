@@ -1,6 +1,0 @@
-artifact_location: mlflow-artifacts:/670256334693401987
-creation_time: 1750761736651
-experiment_id: '670256334693401987'
-last_update_time: 1750761736651
-lifecycle_stage: active
-name: model_evaluation
