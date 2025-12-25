@@ -3,12 +3,13 @@ import mlflow
 import mlflow.sklearn
 import importlib
 from sklearn.model_selection import train_test_split, cross_validate
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, HistGradientBoostingClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, HistGradientBoostingClassifier, AdaBoostClassifier, ExtraTreesClassifier
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 from utils import load_params, get_dataset_path
 
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
+mlflow.set_tracking_uri("file:./mlruns")
 mlflow.set_experiment("exp1_median_models")
 
 def get_model_class(model_config):

@@ -10,7 +10,7 @@ import importlib
 import mlflow.sklearn
 import matplotlib.pyplot as plt
 import seaborn as sns
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
+mlflow.set_tracking_uri("file:./mlruns")
 mlflow.set_experiment("exp2_bestmodel_Hyperparameter_tuning")
 def get_model_class(model_config):
     modul_name, class_name = model_config['class'].rsplit('.', 1)

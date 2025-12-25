@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  pipeline:
+    build: .
+    container_name: mlops-water-pipeline
+    volumes:
+      # Données
+      - ./data:/app/data
+      # Artefacts MLflow
+      - ./mlruns:/app/mlruns
+      - ./mlartifacts:/app/mlartifacts
+      # Outputs - monter le dossier parent
+      - ./:/app/
+    working_dir: /app

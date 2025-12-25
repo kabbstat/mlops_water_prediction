@@ -1,0 +1,90 @@
+# .dockerignore - Fichiers à EXCLURE de l'image
+# ==============================================
+
+# Environnements virtuels
+venv/
+env/
+waterenv/
+.venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Git
+#.git/
+.gitignore
+.gitattributes
+
+# DVC cache (ne pas inclure le cache local)
+.dvc/cache/
+.dvc/tmp/
+#.dvc/.gitignore
+
+# MLflow artifacts générés (seront recréés)
+mlruns/
+mlartifacts/
+
+# Outputs du pipeline (générés par DVC)
+best_model.txt
+best_model_params.json
+feature_importances.png
+confusion_matrix.png
+model_eval.txt
+metrics.json
+feature.csv
+feature_names.txt
+
+# Données processées (générées par le pipeline)
+data/processed/
+data/interim/
+data/external/
+
+# IDE et éditeurs
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+.DS_Store
+Thumbs.db
+
+# Documentation
+docs/
+*.md
+LICENSE
+
+# Tests
+tests/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Notebooks
+notebooks/
+*.ipynb
+.ipynb_checkpoints/
+
+# Logs
+*.log
+logs/
+
+# Fichiers temporaires
+*.tmp
+*.bak
+*.cache
+
+# Lock files (Poetry lock sera copié explicitement)
+# poetry.lock est nécessaire, donc on ne l'exclut pas
+
+# Autres
+references/
+reports/

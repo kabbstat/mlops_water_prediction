@@ -1,8 +1,10 @@
 import pandas as pd
+from sklearn.inspection import permutation_importance
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, HistGradientBoostingClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, HistGradientBoostingClassifier, AdaBoostClassifier, ExtraTreesClassifier
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score, confusion_matrix
 import pickle
 import mlflow
@@ -13,7 +15,7 @@ from mlflow.models import infer_signature
 from matplotlib import pyplot as plt
 from utils import get_dataset_path
 import seaborn as sns
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
+mlflow.set_tracking_uri("file:./mlruns")
 mlflow.set_experiment("model_evaluation")
 
 # load best model from exp1
@@ -42,8 +44,12 @@ def main():
         'RandomForest': RandomForestClassifier,
         'GradientBoosting': GradientBoostingClassifier,
         'HistGradientBoosting': HistGradientBoostingClassifier,
+        'AdaBoost': AdaBoostClassifier,
+        'ExtraTrees': ExtraTreesClassifier,
         'SVM': SVC,
-        'LogisticRegression': LogisticRegression}
+        'LogisticRegression': LogisticRegression,
+        'KNeighbors': KNeighborsClassifier
+    }
     model_class = model_map[best_model_name]
     model = model_class(**best_model_params)
     model.fit(X_train, y_train)
@@ -80,15 +86,25 @@ def main():
                                     description=f"Évaluation finale du modèle {best_model_name} — accuracy={metrics['accuracy']:.4f}")
         #client.set_registered_model_alias(name="water_potability_gb_model",alias="production", version=model_version.version)
         #mlflow.register_model(model_version.model_uri, "water_potability_gb_model")
-        feature_importances = model.feature_importances_
+        if hasattr(model, 'feature_importances_'):
+            # Pour les modèles avec feature_importances_ natif
+            feature_importances = model.feature_importances_
+            importance_type = "Built-in"
+        else:
+            # Pour tous les autres modèles (HistGradientBoosting, SVM, etc.)
+            perm_importance = permutation_importance(model, X_test, y_test, n_repeats=10, random_state=42, n_jobs=-1)
+            feature_importances = perm_importance.importances_mean
+            importance_type = "Permutation"
+
         plt.figure(figsize=(10, 6))
         sns.barplot(x=feature_importances, y=X_train.columns)
-        plt.title('Feature Importances')
+        plt.title(f'Feature Importances ({importance_type})')
         plt.xlabel('Importance')
         plt.ylabel('Features')
         plt.savefig("feature_importances.png")
         plt.close()
         mlflow.log_artifact("feature_importances.png")
+        mlflow.log_param("importance_type", importance_type)
         cm = confusion_matrix(y_test, preds)
         plt.figure(figsize=(10, 7))
         sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
@@ -103,6 +119,12 @@ def main():
             f.write(f"Metrics:\n")
             for metric, value in metrics.items():
                 f.write(f"{metric}: {value:.4f}\n")
+        
+        # Save metrics as JSON for DVC
+        import json
+        with open("metrics.json", "w") as f:
+            json.dump(metrics, f, indent=4)
+        
         mlflow.log_artifact(__file__)
 if __name__ == "__main__":
     main()
