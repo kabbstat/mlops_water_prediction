@@ -1,52 +1,165 @@
-# MLOps Water Potability Prediction
+# 🚰 MLOps Water Potability Prediction
 
-Un projet MLOps complet pour prédire la potabilité de l'eau en utilisant des techniques d'apprentissage automatique. Ce projet suit les meilleures pratiques de l'industrie avec un workflow de data science bien structuré et un pipeline d'analyse reproductible.
+[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
+[![Poetry](https://img.shields.io/badge/Poetry-1.7.1-blue.svg)](https://python-poetry.org/)
+[![Docker](https://img.shields.io/badge/Docker-Enabled-blue.svg)](https://www.docker.com/)
+[![MLflow](https://img.shields.io/badge/MLflow-Tracking-orange.svg)](https://mlflow.org/)
+[![DVC](https://img.shields.io/badge/DVC-Pipeline-yellow.svg)](https://dvc.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-API-green.svg)](https://fastapi.tiangolo.com/)
 
-## 🎯 Aperçu du Projet
+Production-ready MLOps pipeline for water potability prediction using Machine Learning. Features automated training, model versioning, containerized deployment, and REST API serving.
 
-Ce projet vise à prédire la potabilité de l'eau (si l'eau est potable) en utilisant divers paramètres de qualité de l'eau. Le modèle aide à évaluer la qualité de l'eau et à garantir des normes d'eau potable sûres.
+## 🎯 Overview
 
-## 📊 Fonctionnalités
+Predict water potability based on 9 water quality parameters using an ensemble of ML models. The system automatically selects and optimizes the best model, tracks experiments with MLflow, and deploys via Docker with FastAPI.
 
-- **Pipeline de Traitement des Données** : Collecte, nettoyage et préparation automatisés des données
-- **Expérimentation MLflow** : Suivi complet des expériences et gestion des modèles
-- **Hyperparamètre Tuning** : Optimisation systématique des paramètres
-- **Évaluation de Modèles** : Analyse complète des performances et comparaisons
-- **Workflow Reproductible** : Structure standardisée suivant les meilleures pratiques
+## ✨ Key Features
 
-## 🛠️ Technologies Utilisées
+- 🔄 **Automated ML Pipeline** - DVC-orchestrated training with 5 stages
+- 🧪 **8 ML Models** - Auto-selection from RandomForest, GradientBoosting, HistGradientBoosting, AdaBoost, ExtraTrees, SVM, LogisticRegression, KNN
+- 📊 **MLflow Tracking** - Experiment tracking, model registry, and versioning
+- 🐳 **Docker & Docker Compose** - Containerized training and serving
+- 🚀 **FastAPI** - Production-ready REST API with Swagger docs
+- 📦 **Poetry** - Modern dependency management
+- 🔁 **Reproducible** - Complete pipeline from raw data to deployed API
 
-- **Python** : Langage de programmation principal
-- **Pandas & NumPy** : Manipulation et analyse des données
-- **Scikit-learn** : Algorithmes d'apprentissage automatique
-- **MLflow** : Suivi des expériences et gestion des modèles
-- **Matplotlib/Seaborn** : Visualisation des données
-- **Jupyter Notebooks** : Développement interactif et analyse
-
-## 📁 Structure du Projet
+## 🏗️ Architecture
 
 ```
-mlops_water_prediction/
-├── LICENSE
-├── Makefile                 # Commandes d'automatisation du projet
-├── README.md               # Documentation du projet
-├── requirements.txt        # Dépendances Python
-├── dvc.yaml                # DVC pipeline
-├── data/
-│   ├── external/           # Sources de données tierces
-│   ├── interim/            # Données intermédiaires traitées
-│   ├── processed/          # Jeux de données finaux pour la modélisation
-│   └── raw/                # Données brutes originales
-├── params.yaml             # Modéls et hyperparametres grid
-├── src/                    # Code source principal
-│   ├── __init__.py
-│   ├── utils.py            # Fonctions utilitaires
-│   ├── data_collection.py  # Collection des données
-│   ├── data_prep.py        # Préparation et preprocessing
-│   ├── exp1.py             # Expérimentation modèles avec MLflow
-│   ├── exp2.py             # Optimisation hyperparamètres
-│   └── model_eval.py       # Évaluation du modèle final
+┌─────────────┐    ┌──────────────┐    ┌────────────┐
+│ Raw Data    │───▶│ DVC Pipeline │───▶│ Best Model │
+└─────────────┘    └──────────────┘    └────────────┘
+                           │                    │
+                           ▼                    ▼
+                    ┌──────────────┐    ┌────────────┐
+                    │ MLflow       │    │ FastAPI    │
+                    │ Tracking     │    │ Service    │
+                    └──────────────┘    └────────────┘
+```
 
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.11+
+- Poetry
+- Docker & Docker Compose
+
+### 1️⃣ Clone & Setup
+```bash
+git clone https://github.com/kabbstat/mlops_water_prediction.git
+cd mlops_water_project
+poetry install
+```
+
+### 2️⃣ Run Training Pipeline
+```bash
+docker-compose run --rm pipeline
+```
+
+### 3️⃣ Launch API
+```bash
+docker-compose up -d api
+```
+
+Access API documentation: `http://localhost:8000/docs`
+
+### 4️⃣ Make Predictions
+```bash
+curl -X POST "http://localhost:8000/predict" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "ph": 7.0,
+    "Hardness": 200,
+    "Solids": 20000,
+    "Chloramines": 7.0,
+    "Sulfate": 300,
+    "Conductivity": 400,
+    "Organic_carbon": 10,
+    "Trihalomethanes": 60,
+    "Turbidity": 3.5
+  }'
+```
+
+## 📁 Project Structure
+
+```
+mlops_water_project/
+├── api/                    # FastAPI application
+│   ├── main.py            # API endpoints
+│   ├── schemas.py         # Pydantic models
+│   └── model_loader.py    # MLflow model loader
+├── src/                   # ML pipeline source
+│   ├── data_collection.py # Data loading & splitting
+│   ├── data_prep.py       # Preprocessing & imputation
+│   ├── exp1.py            # Model selection (8 models)
+│   ├── exp2.py            # Hyperparameter tuning
+│   └── model_eval.py      # Final evaluation & registration
+├── data/                  # Data directories
+│   ├── raw/              # Original datasets
+│   └── processed/        # Processed features
+├── mlruns/               # MLflow tracking data
+├── Dockerfile            # Training container
+├── Dockerfile.api        # API container
+├── docker-compose.yml    # Service orchestration
+├── dvc.yaml             # Pipeline definition
+├── params.yaml          # Model configs & hyperparameters
+└── pyproject.toml       # Poetry dependencies
+```
+
+## 🛠️ Technology Stack
+
+| Category | Technology |
+|----------|-----------|
+| **Language** | Python 3.11 |
+| **ML Frameworks** | Scikit-learn, Pandas, NumPy |
+| **Experiment Tracking** | MLflow |
+| **Pipeline** | DVC |
+| **API** | FastAPI, Uvicorn |
+| **Containerization** | Docker, Docker Compose |
+| **Dependency Management** | Poetry |
+| **Visualization** | Matplotlib, Seaborn |
+
+## 📊 Pipeline Stages
+
+1. **Data Collection** - Load and split dataset (80/20)
+2. **Preprocessing** - Handle missing values with median imputation
+3. **Model Selection** - Train 8 models with 5-fold CV, select best
+4. **Hyperparameter Tuning** - GridSearchCV optimization
+5. **Model Evaluation** - Final metrics, feature importance, confusion matrix
+
+## 🎯 Model Performance
+
+The pipeline automatically selects the best model. Current best:
+- **Model**: RandomForest
+- **Accuracy**: ~66%
+- **F1-Score**: ~0.46
+- **Tracked in MLflow**: Version-controlled and reproducible
+
+## 🔧 Configuration
+
+Edit `params.yaml` to:
+- Add/remove models
+- Modify hyperparameter grids
+- Adjust cross-validation folds
+- Change train/test split ratio
+
+## 🐳 Docker Commands
+
+```bash
+# Build images
+docker-compose build
+
+# Run training pipeline
+docker-compose run --rm pipeline
+
+# Start API service
+docker-compose up -d api
+
+# View logs
+docker-compose logs -f api
+
+# Stop services
+docker-compose down
 ```
 
 ## 🚀 Installation et Configuration

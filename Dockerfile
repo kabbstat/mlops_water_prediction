@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y curl \
     && curl -sSL https://install.python-poetry.org | python3 - \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-    WORKDIR /app
+WORKDIR /app
 COPY pyproject.toml poetry.lock ./
 
 RUN poetry install --without dev --no-root
